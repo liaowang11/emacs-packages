@@ -1,0 +1,41 @@
+From 403f3b3869d944acbeb8de2027315d8bd768c270 Mon Sep 17 00:00:00 2001
+From: amusingimpala75 <69653100+amusingimpala75@users.noreply.github.com>
+Date: Fri, 6 Mar 2026 14:36:13 -0500
+Subject: [PATCH] remove pkg-config disabling block; just always use it
+
+---
+ Makefile | 19 -------------------
+ 1 file changed, 19 deletions(-)
+
+diff --git a/Makefile b/Makefile
+index c1569ce..1c4f9a2 100644
+--- a/Makefile
++++ b/Makefile
+@@ -29,25 +29,6 @@ else
+ endif
+ USE_PKGCONFIG := yes
+ 
+-ifeq ($(HAVE_GUIX),yes)
+-  $(info Guix detected: skipping pkg-config checks.)
+-  USE_PKGCONFIG := no
+-else ifeq ($(HAVE_NIX),yes)
+-  $(info Nix detected: skipping pkg-config checks.)
+-  USE_PKGCONFIG := no
+-else ifeq ($(HAVE_DNF),yes)
+-  $(info dnf detected: skipping pkg-config checks.)
+-  USE_PKGCONFIG := no
+-else ifeq ($(OS_NAME),Darwin)
+-  $(info macOS detected: skipping pkg-config and using Homebrew for MuPDF paths.)
+-  USE_PKGCONFIG := no
+-else ifeq ($(OS_NAME),FreeBSD)
+-  $(info FreeBSD detected: skipping pkg-config checks.)
+-  USE_PKGCONFIG := no
+-else ifeq ($(HAVE_MINGW64), yes)
+-  $(info MinGW64 detected: assuming dll is located in $(MINGW_PREFIX)/bin.)
+-endif
+-
+ ifeq ($(OS_NAME),Darwin)
+   SO := dylib
+ else ifeq ($(HAVE_MINGW64),yes)
+-- 
+2.52.0
