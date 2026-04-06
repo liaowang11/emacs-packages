@@ -9,7 +9,7 @@ on:
 
 jobs:
   package:
-    name: ${{ matrix.system }}:${{ matrix.attr }}
+    name: ${{ matrix.system }}:${{ matrix.name }}
     runs-on: ${{ matrix.runner }}
     permissions:
       contents: read
@@ -19,16 +19,20 @@ jobs:
         include:
           - runner: macos-15
             system: aarch64-darwin
-            attr: default
+            name: default
+            attrs: .#packages.aarch64-darwin.default .#packages.aarch64-darwin.client-app
           - runner: macos-15
             system: aarch64-darwin
-            attr: plus
+            name: plus
+            attrs: .#packages.aarch64-darwin.plus .#packages.aarch64-darwin.plus-client-app
           - runner: ubuntu-24.04
             system: x86_64-linux
-            attr: default
+            name: default
+            attrs: .#packages.x86_64-linux.default
           - runner: ubuntu-24.04
             system: x86_64-linux
-            attr: tty
+            name: tty
+            attrs: .#packages.x86_64-linux.tty
     steps:
       - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd
       - uses: cachix/install-nix-action@96951a368ba55167b55f1c916f7d416bac6505fe
@@ -40,4 +44,4 @@ jobs:
           authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
           skipPush: ${{ github.event_name == 'pull_request' }}
       - run: nix flake check --print-build-logs --system ${{ matrix.system }}
-      - run: nix build --print-build-logs .#packages.${{ matrix.system }}.${{ matrix.attr }}
+      - run: nix build --print-build-logs ${{ matrix.attrs }}

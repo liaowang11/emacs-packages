@@ -38,6 +38,8 @@
           overlays = [ emacs-overlay.overlay ];
         };
 
+      createEmacsClientApp = ./create-emacs-client-app.sh;
+
       mkBasePackages =
         pkgs:
         let
@@ -147,7 +149,10 @@
 
       mkFinalPackage =
         system:
-        { plus ? false, gui ? true }:
+        {
+          plus ? false,
+          gui ? true,
+        }:
         let
           pkgs = mkPkgs system;
           basePackages = mkBasePackages pkgs;
@@ -162,16 +167,40 @@
         in
         epkgs.emacsWithPackages (mkExtraPackages pkgs);
 
+      mkClientApp =
+        pkgs: emacsFinalPackage:
+        pkgs.stdenvNoCC.mkDerivation {
+          pname = "emacs-client-app";
+          version = emacsFinalPackage.emacs.version;
+          dontUnpack = true;
+          installPhase = ''
+            mkdir -p "$out/Applications"
+            ${pkgs.runtimeShell} ${createEmacsClientApp} \
+              "$out/Applications" \
+              "${emacsFinalPackage}/Applications/Emacs.app" \
+              "${emacsFinalPackage}/bin/emacsclient"
+          '';
+          meta = {
+            platforms = lib.platforms.darwin;
+          };
+        };
+
       mkPackages =
         system:
         let
           pkgs = mkPkgs system;
         in
         if pkgs.stdenv.isDarwin then
+          let
+            defaultPackage = mkFinalPackage system { };
+            plusPackage = mkFinalPackage system { plus = true; };
+          in
           {
-            default = mkFinalPackage system { };
-            macport = mkFinalPackage system { };
-            plus = mkFinalPackage system { plus = true; };
+            default = defaultPackage;
+            macport = defaultPackage;
+            plus = plusPackage;
+            client-app = mkClientApp pkgs defaultPackage;
+            plus-client-app = mkClientApp pkgs plusPackage;
           }
         else
           {
@@ -203,6 +232,28 @@
                 packages.default.drvPath != packages.tty.drvPath
             );
             pkgs.runCommand "emacs-final-package-variant-check" { } "touch $out";
+          client-app =
+            assert (
+              if pkgs.stdenv.isDarwin then
+                let
+                  defaultEmacsAppPath = builtins.unsafeDiscardStringContext "${packages.default}/Applications/Emacs.app";
+                  defaultEmacsClientPath = builtins.unsafeDiscardStringContext "${packages.default}/bin/emacsclient";
+                  plusEmacsAppPath = builtins.unsafeDiscardStringContext "${packages.plus}/Applications/Emacs.app";
+                  plusEmacsClientPath = builtins.unsafeDiscardStringContext "${packages.plus}/bin/emacsclient";
+                in
+                packages."client-app".pname == "emacs-client-app"
+                && packages."plus-client-app".pname == "emacs-client-app"
+                && lib.hasInfix defaultEmacsAppPath packages."client-app".installPhase
+                && lib.hasInfix defaultEmacsClientPath packages."client-app".installPhase
+                && lib.hasInfix plusEmacsAppPath packages."plus-client-app".installPhase
+                && lib.hasInfix plusEmacsClientPath packages."plus-client-app".installPhase
+              else
+                true
+            );
+            pkgs.runCommand "emacs-client-app-check" { } "touch $out";
+          package-definitions =
+            assert import ./tests/package-definitions.nix { inherit lib; };
+            pkgs.runCommand "emacs-package-definitions-check" { } "touch $out";
           update-workflow =
             assert import ./tests/update-workflow.nix;
             pkgs.runCommand "emacs-update-workflow-check" { } "touch $out";
