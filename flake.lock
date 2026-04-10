@@ -56,7 +56,24 @@
     "root": {
       "inputs": {
         "emacs-overlay": "emacs-overlay",
-        "nixpkgs": "nixpkgs"
+        "nixpkgs": "nixpkgs",
+        "telega-src": "telega-src"
+      }
+    },
+    "telega-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1772680859,
+        "narHash": "sha256-n4eqRiyPrmQ41UieAVlwf9iMzWTV4nTiZXE7p9Ra9jo=",
+        "owner": "zevlg",
+        "repo": "telega.el",
+        "rev": "d5a52a1a9f76cc4a4c601b48544d28afa8f55a80",
+        "type": "github"
+      },
+      "original": {
+        "owner": "zevlg",
+        "repo": "telega.el",
+        "type": "github"
       }
     }
   },

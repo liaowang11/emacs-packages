@@ -14,6 +14,10 @@
       url = "github:nix-community/emacs-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    telega-src = {
+      url = "github:zevlg/telega.el";
+      flake = false;
+    };
   };
 
   outputs =
@@ -21,6 +25,7 @@
       self,
       nixpkgs,
       emacs-overlay,
+      telega-src,
     }:
     let
       lib = nixpkgs.lib;
@@ -115,12 +120,7 @@
           });
           telegaPackage = epkgs.melpaPackages.telega.overrideAttrs (old: {
             version = "0.8.601";
-            src = pkgs.fetchFromGitHub {
-              owner = "zevlg";
-              repo = "telega.el";
-              rev = "d5a52a1a9f76cc4a4c601b48544d28afa8f55a80";
-              sha256 = "0fpnbbaaffvicpi79qnmck6qrn3zf1ch37j8slw69blg5i3am1wz";
-            };
+            src = telega-src;
             buildInputs = (lib.remove pkgs.tdlib old.buildInputs) ++ [ tdlibCompatible ];
             postPatch = (old.postPatch or "") + ''
               substituteInPlace telega-ffplay.el --replace '"ffmpeg -v quiet ' '"${pkgs.ffmpeg}/bin/ffmpeg -v quiet '
