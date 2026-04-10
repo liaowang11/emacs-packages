@@ -12,18 +12,25 @@ let
         ${needle}
     '';
 
+  assertLacks =
+    needle: text:
+    lib.asserts.assertMsg (!lib.hasInfix needle text) ''
+      Expected not to find:
+        ${needle}
+    '';
+
   checks = [
     (assertHas "telegaPackage = epkgs.melpaPackages.telega.overrideAttrs" flakeText)
-    (assertHas "tdlibCompatible = pkgs.tdlib.overrideAttrs" flakeText)
-    (assertHas "rev = \"11e254af6\"" flakeText)
-    (assertHas "buildInputs = (lib.remove pkgs.tdlib old.buildInputs) ++ [ tdlibCompatible ];" flakeText)
-    (assertHas "version = \"1.8.61-11e254af6\"" flakeText)
-    (assertHas "version = \"0.8.601\"" flakeText)
     (assertHas "telega-src = {" flakeText)
-    (assertHas "url = \"github:zevlg/telega.el\";" flakeText)
+    (assertHas "url = \"github:liaowang11/telega.el\";" flakeText)
     (assertHas "flake = false;" flakeText)
     (assertHas "src = telega-src;" flakeText)
-    (assertHas "substituteInPlace td/telegram/StarManager.cpp" flakeText)
+    (assertLacks "version = \"0.8.602\";" flakeText)
+    (assertLacks "version = \"1.8.61-11e254af6\"" flakeText)
+    (assertLacks "rev = \"11e254af6\"" flakeText)
+    (assertLacks "tdlibCompatible = pkgs.tdlib;" flakeText)
+    (assertLacks "buildInputs = (lib.remove pkgs.tdlib old.buildInputs) ++ [ tdlibCompatible ];" flakeText)
+    (assertLacks "substituteInPlace td/telegram/StarManager.cpp" flakeText)
     (assertHas "substituteInPlace telega-ffplay.el" flakeText)
     (assertHas "executable-find \"ffplay\"" flakeText)
     (assertHas "executable-find \"ffmpeg\"" flakeText)

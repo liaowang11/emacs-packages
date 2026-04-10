@@ -15,7 +15,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     telega-src = {
-      url = "github:zevlg/telega.el";
+      url = "github:liaowang11/telega.el";
       flake = false;
     };
   };
@@ -104,24 +104,8 @@
       mkExtraPackages =
         pkgs: epkgs:
         let
-          tdlibCompatible = pkgs.tdlib.overrideAttrs (old: {
-            version = "1.8.61-11e254af6";
-            postPatch = (old.postPatch or "") + ''
-              substituteInPlace td/telegram/StarManager.cpp \
-                --replace 'DialogId(UserId(G()->is_test_dc() ? 5001167034 : 8353936423))' \
-                          'DialogId(UserId(static_cast<int64>(G()->is_test_dc() ? 5001167034 : 8353936423)))'
-            '';
-            src = pkgs.fetchFromGitHub {
-              owner = "tdlib";
-              repo = "td";
-              rev = "11e254af6";
-              sha256 = "03q6hr258ji5zk2c2i13d66rr8v64vzw7ia58xbzvxbicxm5xbw7";
-            };
-          });
           telegaPackage = epkgs.melpaPackages.telega.overrideAttrs (old: {
-            version = "0.8.601";
             src = telega-src;
-            buildInputs = (lib.remove pkgs.tdlib old.buildInputs) ++ [ tdlibCompatible ];
             postPatch = (old.postPatch or "") + ''
               substituteInPlace telega-ffplay.el --replace '"ffmpeg -v quiet ' '"${pkgs.ffmpeg}/bin/ffmpeg -v quiet '
               substituteInPlace telega-ffplay.el --replace '(executable-find "ffplay")' '"${pkgs.ffmpeg}/bin/ffplay"'
