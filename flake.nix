@@ -15,7 +15,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     telega-src = {
-      url = "github:liaowang11/telega.el";
+      url = "github:liaowang11/telega.el?ref=wip/forum-topic-commands";
       flake = false;
     };
   };

@@ -63,15 +63,16 @@
     "telega-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1775815925,
-        "narHash": "sha256-Ei6mKNhk2o5xmK/obJfn/sq11dhNhnOeMf/EI8I4xbk=",
+        "lastModified": 1775841392,
+        "narHash": "sha256-iybbiEJ2RE7sCqC6czpkA/8yIqn4BIEsrlftqwKdcyo=",
         "owner": "liaowang11",
         "repo": "telega.el",
-        "rev": "e91bc0a20739de5422e82159f18f1c13741d3dac",
+        "rev": "93208cc16ce8237a431818fbee26d50b115e497f",
         "type": "github"
       },
       "original": {
         "owner": "liaowang11",
+        "ref": "wip/forum-topic-commands",
         "repo": "telega.el",
         "type": "github"
       }
