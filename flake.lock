@@ -63,11 +63,11 @@
     "telega-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1775913319,
-        "narHash": "sha256-OiSZ2dTv+eDjOQmvlRxmaiGkmg2x95gPDIqgdyD68+I=",
+        "lastModified": 1775927230,
+        "narHash": "sha256-4lfIzTp7La3DH+r+3xkugApLdi6J/yOKT5KNMfSjUPU=",
         "owner": "liaowang11",
         "repo": "telega.el",
-        "rev": "27f788af141a0bead09e0b20161eb558973149da",
+        "rev": "c272852347dae23906f9a669dd7e5214e94aa0cc",
         "type": "github"
       },
       "original": {
