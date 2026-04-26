@@ -90,6 +90,7 @@
                 patches = (old.patches or [ ]) ++ [
                   ./patches/emacs-mac-29.2-rc-1-multi-tty.diff
                   ./patches/emacs-macports30-undecorated-round.patch
+                  ./patches/emacs-mac-tree-sitter-abi-version.patch
                   ./patches/prefer-typo-ascender-descender-linegap.diff
                 ];
                 postInstall = (old.postInstall or "") + ''

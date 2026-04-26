@@ -4,6 +4,7 @@
 let
   flakeText = builtins.readFile ../flake.nix;
   createEmacsClientApp = builtins.readFile ../create-emacs-client-app.sh;
+  treeSitterAbiPatch = builtins.readFile ../patches/emacs-mac-tree-sitter-abi-version.patch;
 
   assertHas =
     needle: text:
@@ -35,6 +36,8 @@ let
     (assertHas "executable-find \"ffplay\"" flakeText)
     (assertHas "executable-find \"ffmpeg\"" flakeText)
     (assertHas "ffprobe -v error " flakeText)
+    (assertHas "./patches/emacs-mac-tree-sitter-abi-version.patch" flakeText)
+    (assertHas "ts_language_abi_version" treeSitterAbiPatch)
     (assertHas "/usr/bin/osacompile" createEmacsClientApp)
     (assertHas "Emacs Client.app" createEmacsClientApp)
     (assertHas "org-protocol" createEmacsClientApp)
