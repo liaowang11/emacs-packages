@@ -36,6 +36,8 @@ let
     (assertHas "executable-find \"ffplay\"" flakeText)
     (assertHas "executable-find \"ffmpeg\"" flakeText)
     (assertHas "ffprobe -v error " flakeText)
+    (assertHas "basePkgs.emacs-macport.override" flakeText)
+    (assertLacks "pkgs.emacs-macport.override" flakeText)
     (assertHas "./patches/emacs-mac-tree-sitter-abi-version.patch" flakeText)
     (assertHas "ts_language_abi_version" treeSitterAbiPatch)
     (assertHas "/usr/bin/osacompile" createEmacsClientApp)

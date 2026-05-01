@@ -14,9 +14,3 @@ index 5296848e9ff..f17e9d0d937 100644
 @@ -227 +227 @@ init_treesit_functions (void)
 -#define ts_language_version fn_ts_language_version
 +#define ts_language_abi_version fn_ts_language_abi_version
-@@ -749 +749 @@ treesit_load_language (Lisp_Object language, Lisp_Object *signal_symbol,
--			    make_fixnum (ts_language_version (lang)));
-+			    make_fixnum (ts_language_abi_version (lang)));
-@@ -820 +820 @@ Return nil if a grammar library for LANGUAGE is not available.  */)
--      uint32_t version =  ts_language_version (ts_language);
-+      uint32_t version =  ts_language_abi_version (ts_language);

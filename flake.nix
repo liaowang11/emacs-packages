@@ -42,27 +42,37 @@
           config.allowUnfree = true;
           overlays = [ emacs-overlay.overlay ];
         };
+      mkBasePkgs =
+        system:
+        import nixpkgs {
+          inherit system;
+          config.allowUnfree = true;
+        };
 
       createEmacsClientApp = ./create-emacs-client-app.sh;
 
       mkBasePackages =
-        pkgs:
+        pkgs: basePkgs:
         let
           icon = ./patches/Emacs.icns;
-          pangoWithFontPatch = pkgs.pango.overrideAttrs (old: {
-            patches = (old.patches or [ ]) ++ [
-              (pkgs.fetchpatch {
-                url = "https://gitlab.gnome.org/GNOME/pango/-/commit/4403954455f2b4a815b32e11c44f79b2e665e94c.diff";
-                hash = "sha256-9HtPsBwqBR56YewDEbik1U1jakC7wTaCkKR+YXb9s4E=";
-              })
-            ];
-          });
-          librsvgWithPatchedPango = pkgs.librsvg.override {
-            pango = pangoWithFontPatch;
-          };
+          mkLibrsvgWithPatchedPango =
+            packageSet:
+            let
+              pangoWithFontPatch = packageSet.pango.overrideAttrs (old: {
+                patches = (old.patches or [ ]) ++ [
+                  (packageSet.fetchpatch {
+                    url = "https://gitlab.gnome.org/GNOME/pango/-/commit/4403954455f2b4a815b32e11c44f79b2e665e94c.diff";
+                    hash = "sha256-9HtPsBwqBR56YewDEbik1U1jakC7wTaCkKR+YXb9s4E=";
+                  })
+                ];
+              });
+            in
+            packageSet.librsvg.override {
+              pango = pangoWithFontPatch;
+            };
           emacsPlus =
             (pkgs.emacs30.override {
-              librsvg = librsvgWithPatchedPango;
+              librsvg = mkLibrsvgWithPatchedPango pkgs;
             }).overrideAttrs
               (old: {
                 separateDebugInfo = true;
@@ -82,8 +92,8 @@
                 '';
               });
           emacsMac =
-            (pkgs.emacs-macport.override {
-              librsvg = librsvgWithPatchedPango;
+            (basePkgs.emacs-macport.override {
+              librsvg = mkLibrsvgWithPatchedPango basePkgs;
             }).overrideAttrs
               (old: {
                 configureFlags = old.configureFlags ++ [ "--with-xwidgets" ];
@@ -140,7 +150,8 @@
         }:
         let
           pkgs = mkPkgs system;
-          basePackages = mkBasePackages pkgs;
+          basePkgs = mkBasePkgs system;
+          basePackages = mkBasePackages pkgs basePkgs;
           emacsPackage =
             if pkgs.stdenv.isDarwin then
               if plus then basePackages.emacsPlus else basePackages.emacsMac
