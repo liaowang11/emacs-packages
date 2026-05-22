@@ -55,24 +55,12 @@
         pkgs: basePkgs:
         let
           icon = ./patches/Emacs.icns;
-          mkLibrsvgWithPatchedPango =
-            packageSet:
-            let
-              pangoWithFontPatch = packageSet.pango.overrideAttrs (old: {
-                patches = (old.patches or [ ]) ++ [
-                  (packageSet.fetchpatch {
-                    url = "https://gitlab.gnome.org/GNOME/pango/-/commit/4403954455f2b4a815b32e11c44f79b2e665e94c.diff";
-                    hash = "sha256-9HtPsBwqBR56YewDEbik1U1jakC7wTaCkKR+YXb9s4E=";
-                  })
-                ];
-              });
-            in
-            packageSet.librsvg.override {
-              pango = pangoWithFontPatch;
-            };
+          # The CoreText fontmap fix is already present in current nixpkgs pango,
+          # so keep librsvg on the stock dependency instead of reapplying the patch.
+          mkLibrsvg = packageSet: packageSet.librsvg;
           emacsPlus =
             (pkgs.emacs30.override {
-              librsvg = mkLibrsvgWithPatchedPango pkgs;
+              librsvg = mkLibrsvg pkgs;
             }).overrideAttrs
               (old: {
                 separateDebugInfo = true;
@@ -93,7 +81,7 @@
               });
           emacsMac =
             (basePkgs.emacs-macport.override {
-              librsvg = mkLibrsvgWithPatchedPango basePkgs;
+              librsvg = mkLibrsvg basePkgs;
             }).overrideAttrs
               (old: {
                 configureFlags = old.configureFlags ++ [ "--with-xwidgets" ];
