@@ -125,6 +125,7 @@
         ++ (with epkgs.melpaPackages; [
           vterm
           zmq
+          jinx
         ])
         ++ (with epkgs.manualPackages; [
           treesit-grammars.with-all-grammars
