@@ -90,6 +90,7 @@
                   ./patches/emacs-macports30-undecorated-round.patch
                   ./patches/emacs-mac-tree-sitter-abi-version.patch
                   ./patches/prefer-typo-ascender-descender-linegap.diff
+                  ./patches/emacs-mac-accessibility-keymap-hang.patch
                 ];
                 postInstall = (old.postInstall or "") + ''
                   cp ${icon} $out/Applications/Emacs.app/Contents/Resources/Emacs.icns
