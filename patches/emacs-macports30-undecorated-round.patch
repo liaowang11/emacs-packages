@@ -75,15 +75,6 @@ index 93aa7a08834..4caa19803f1 100644
  #include <sys/socket.h>
  
  #include "character.h"
-@@ -2513,7 +2514,7 @@ - (void)setupWindow
-   if (!FRAME_TOOLTIP_P (f))
-     {
-       if (!self.shouldBeTitled)
--	windowStyle = NSWindowStyleMaskBorderless;
-+	windowStyle = (NSWindowStyleMaskBorderless | NSWindowStyleMaskResizable);
-       else
- 	windowStyle = (NSWindowStyleMaskTitled | NSWindowStyleMaskClosable
- 		       | NSWindowStyleMaskMiniaturizable
 @@ -2522,6 +2523,11 @@ - (void)setupWindow
    else
      windowStyle = NSWindowStyleMaskBorderless;

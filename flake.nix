@@ -18,6 +18,10 @@
       url = "github:liaowang11/telega.el?ref=wip/forum-topic-commands";
       flake = false;
     };
+    emacs-mac-src = {
+      url = "github:liaowang11/emacs-mac?ref=emacs-mac-30_1_exp";
+      flake = false;
+    };
   };
 
   outputs =
@@ -26,6 +30,7 @@
       nixpkgs,
       emacs-overlay,
       telega-src,
+      emacs-mac-src,
     }:
     let
       lib = nixpkgs.lib;
@@ -84,13 +89,13 @@
               librsvg = mkLibrsvg basePkgs;
             }).overrideAttrs
               (old: {
+                src = emacs-mac-src;
                 configureFlags = old.configureFlags ++ [ "--with-xwidgets" ];
                 patches = (old.patches or [ ]) ++ [
                   ./patches/emacs-mac-29.2-rc-1-multi-tty.diff
                   ./patches/emacs-macports30-undecorated-round.patch
                   ./patches/emacs-mac-tree-sitter-abi-version.patch
                   ./patches/prefer-typo-ascender-descender-linegap.diff
-                  ./patches/emacs-mac-accessibility-keymap-hang.patch
                 ];
                 postInstall = (old.postInstall or "") + ''
                   cp ${icon} $out/Applications/Emacs.app/Contents/Resources/Emacs.icns
