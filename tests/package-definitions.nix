@@ -23,7 +23,8 @@ let
   checks = [
     (assertHas "telegaPackage = epkgs.melpaPackages.telega.overrideAttrs" flakeText)
     (assertHas "telega-src = {" flakeText)
-    (assertHas "url = \"github:liaowang11/telega.el?ref=wip/forum-topic-commands\";" flakeText)
+    (assertHas "url = \"github:liaowang11/telega.el\";" flakeText)
+    (assertLacks "url = \"github:liaowang11/telega.el?ref=wip/forum-topic-commands\";" flakeText)
     (assertHas "flake = false;" flakeText)
     (assertHas "src = telega-src;" flakeText)
     (assertLacks "version = \"0.8.602\";" flakeText)
