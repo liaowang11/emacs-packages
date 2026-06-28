@@ -190,6 +190,7 @@
             default = defaultPackage;
             macport = defaultPackage;
             plus = plusPackage;
+            mu = pkgs.mu;
             client-app = mkClientApp pkgs defaultPackage;
             plus-client-app = mkClientApp pkgs plusPackage;
           }
@@ -200,6 +201,7 @@
             tty = mkFinalPackage system {
               gui = false;
             };
+            mu = pkgs.mu;
           };
     in
     {
@@ -245,6 +247,12 @@
           package-definitions =
             assert import ./tests/package-definitions.nix { inherit lib; };
             pkgs.runCommand "emacs-package-definitions-check" { } "touch $out";
+          mu =
+            let
+              epkgs = pkgs.emacsPackagesFor pkgs.emacs;
+            in
+            assert packages.mu.version == epkgs.mu4e.version;
+            pkgs.runCommand "emacs-mu-version-check" { } "touch $out";
           update-workflow =
             assert import ./tests/update-workflow.nix;
             pkgs.runCommand "emacs-update-workflow-check" { } "touch $out";
