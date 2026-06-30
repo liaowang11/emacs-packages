@@ -81,15 +81,16 @@
     "telega-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1782636331,
-        "narHash": "sha256-rnMdQyghXz8tw7FQTOrVK/Bb76Q7qFPWbEnXkVAE06I=",
+        "lastModified": 1782805592,
+        "narHash": "sha256-oY7xwHs79i9k14ZucieXNjaGy9ogBkXUUz53Ym0h/dg=",
         "owner": "liaowang11",
         "repo": "telega.el",
-        "rev": "77358cdc2f34362b9248f58a5f9b34fdc7eb0137",
+        "rev": "2bb32a621982367fbd24cb5b7682f27217f5a93a",
         "type": "github"
       },
       "original": {
         "owner": "liaowang11",
+        "ref": "main",
         "repo": "telega.el",
         "type": "github"
       }
