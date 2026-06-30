@@ -15,7 +15,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     telega-src = {
-      url = "github:liaowang11/telega.el/main";
+      url = "github:liaowang11/telega.el/master";
       flake = false;
     };
     emacs-mac-src = {
