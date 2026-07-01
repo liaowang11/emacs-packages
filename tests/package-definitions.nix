@@ -25,6 +25,7 @@ let
     (assertHas "telega-src = {" flakeText)
     (assertHas "url = \"github:liaowang11/telega.el/main\";" flakeText)
     (assertLacks "url = \"github:liaowang11/telega.el\";" flakeText)
+    (assertLacks "url = \"github:liaowang11/telega.el/master\";" flakeText)
     (assertLacks "url = \"github:liaowang11/telega.el?ref=wip/forum-topic-commands\";" flakeText)
     (assertHas "flake = false;" flakeText)
     (assertHas "src = telega-src;" flakeText)
