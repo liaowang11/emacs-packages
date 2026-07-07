@@ -90,7 +90,7 @@
       },
       "original": {
         "owner": "liaowang11",
-        "ref": "main",
+        "ref": "master",
         "repo": "telega.el",
         "type": "github"
       }
