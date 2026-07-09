@@ -59,7 +59,7 @@
       mkBasePackages =
         pkgs: basePkgs:
         let
-          icon = ./patches/Emacs.icns;
+          icon = ./patches/Emacs-dark.icns;
           # The CoreText fontmap fix is already present in current nixpkgs pango,
           # so keep librsvg on the stock dependency instead of reapplying the patch.
           mkLibrsvg = packageSet: packageSet.librsvg;
