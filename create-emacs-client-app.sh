@@ -87,6 +87,16 @@ plist_set "LSApplicationCategoryType" "string" "public.app-category.productivity
 /usr/libexec/PlistBuddy -c "Add :CFBundleURLTypes:0:CFBundleURLSchemes:0 string org-protocol" "$client_plist"
 
 cp "$emacs_app/Contents/Resources/Emacs.icns" "$client_resources/applet.icns"
-rm -f "$client_resources/droplet.icns" "$client_resources/droplet.rsrc" "$client_resources/Assets.car"
+rm -f "$client_resources/droplet.icns" "$client_resources/droplet.rsrc"
 /usr/libexec/PlistBuddy -c "Delete :CFBundleIconFile" "$client_plist" 2>/dev/null || true
 /usr/libexec/PlistBuddy -c "Add :CFBundleIconFile string applet" "$client_plist"
+
+# Reuse the source app's liquid-glass asset catalog so the client matches on
+# macOS Tahoe; applet.icns remains the pre-Tahoe fallback.
+if [ -f "$emacs_app/Contents/Resources/Assets.car" ]; then
+  cp "$emacs_app/Contents/Resources/Assets.car" "$client_resources/Assets.car"
+  /usr/libexec/PlistBuddy -c "Delete :CFBundleIconName" "$client_plist" 2>/dev/null || true
+  /usr/libexec/PlistBuddy -c "Add :CFBundleIconName string Emacs" "$client_plist"
+else
+  rm -f "$client_resources/Assets.car"
+fi

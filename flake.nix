@@ -59,7 +59,19 @@
       mkBasePackages =
         pkgs: basePkgs:
         let
-          icon = ./patches/Emacs-dark.icns;
+          # macOS Tahoe "liquid glass" icon (github.com/leaferiksen/emacs-liquid-glass-icon).
+          # The .icns is the pre-Tahoe fallback; Assets.car holds the liquid-glass
+          # asset catalog, activated by pointing CFBundleIconName at it.
+          liquidGlassIcns = ./patches/liquid-glass/Emacs.icns;
+          liquidGlassAssets = ./patches/liquid-glass/Assets.car;
+          installIcon = ''
+            resources="$out/Applications/Emacs.app/Contents/Resources"
+            plist="$out/Applications/Emacs.app/Contents/Info.plist"
+            cp ${liquidGlassIcns} "$resources/Emacs.icns"
+            cp ${liquidGlassAssets} "$resources/Assets.car"
+            ${pkgs.xcbuild}/bin/PlistBuddy -c 'Delete :CFBundleIconName' "$plist"
+            ${pkgs.xcbuild}/bin/PlistBuddy -c 'Add :CFBundleIconName string Emacs' "$plist"
+          '';
           # The CoreText fontmap fix is already present in current nixpkgs pango,
           # so keep librsvg on the stock dependency instead of reapplying the patch.
           mkLibrsvg = packageSet: packageSet.librsvg;
@@ -80,9 +92,7 @@
                   ./patches/fix-macos-tahoe-scrolling.patch
                   ./patches/fix-ns-x-colors.patch
                 ];
-                postInstall = (old.postInstall or "") + ''
-                  cp ${icon} $out/Applications/Emacs.app/Contents/Resources/Emacs.icns
-                '';
+                postInstall = (old.postInstall or "") + installIcon;
               });
           emacsMac =
             (basePkgs.emacs-macport.override {
@@ -97,9 +107,7 @@
                   ./patches/emacs-mac-tree-sitter-abi-version.patch
                   ./patches/prefer-typo-ascender-descender-linegap.diff
                 ];
-                postInstall = (old.postInstall or "") + ''
-                  cp ${icon} $out/Applications/Emacs.app/Contents/Resources/Emacs.icns
-                '';
+                postInstall = (old.postInstall or "") + installIcon;
               });
         in
         {
