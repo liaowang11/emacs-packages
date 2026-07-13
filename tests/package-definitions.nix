@@ -4,6 +4,7 @@
 let
   flakeText = builtins.readFile ../flake.nix;
   createEmacsClientApp = builtins.readFile ../create-emacs-client-app.sh;
+  readerPackage = builtins.readFile ../packages/emacs/reader.nix;
 
   assertHas =
     needle: text:
@@ -21,6 +22,9 @@ let
 
   checks = [
     (assertHas "telegaPackage = epkgs.melpaPackages.telega.overrideAttrs" flakeText)
+    (assertHas "emacsReader = epkgs.callPackage ./packages/emacs/reader.nix { };" flakeText)
+    (assertHas "owner = \"liaowang11\";" readerPackage)
+    (assertLacks "owner = \"MonadicSheep\";" readerPackage)
     (assertHas "telega-src = {" flakeText)
     (assertLacks "url = \"github:liaowang11/telega.el\";" flakeText)
     (assertLacks "url = \"github:liaowang11/telega.el?ref=wip/forum-topic-commands\";" flakeText)

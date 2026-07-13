@@ -4,7 +4,6 @@
   lib,
   melpaBuild,
   stdenv,
-
   emacs,
   pkg-config,
   mupdf-headless,
@@ -14,10 +13,10 @@ let
   version = "0-unstable-2026-04-01";
   src = fetchFromGitea {
     domain = "codeberg.org";
-    owner = "MonadicSheep";
+    owner = "liaowang11";
     repo = "emacs-reader";
-    rev = "98c5046683e997902a83092b65cdb70ab120e000";
-    hash = "sha256-Jo8ZecM4Y22T5kc5zJzCvSywkxwcpNEtQ3HHMJNesac=";
+    rev = "06501703efb4c3f7484e3f8e097121fab81dbebc";
+    hash = "sha256-p70a9CglyVR8s1jk9XXSUsKYj9vGJTdB/ibJDl8TPuM=";
   };
   core = stdenv.mkDerivation {
     inherit src;
