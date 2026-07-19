@@ -14,6 +14,9 @@ Darwin:
 
 Linux:
 
+- `packages.aarch64-linux.default`
+- `packages.aarch64-linux.gui`
+- `packages.aarch64-linux.tty`
 - `packages.x86_64-linux.default`
 - `packages.x86_64-linux.gui`
 - `packages.x86_64-linux.tty`
@@ -24,6 +27,8 @@ The build workflow in `.github/workflows/build.yml` builds:
 
 - `aarch64-darwin.default` and `aarch64-darwin.client-app`
 - `aarch64-darwin.plus` and `aarch64-darwin.plus-client-app`
+- `aarch64-linux.default`
+- `aarch64-linux.tty`
 - `x86_64-linux.default`
 - `x86_64-linux.tty`
 

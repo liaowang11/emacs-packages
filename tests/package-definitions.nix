@@ -21,6 +21,7 @@ let
     '';
 
   checks = [
+    (assertHas ''"aarch64-linux"'' flakeText)
     (assertHas "telegaPackage = epkgs.melpaPackages.telega.overrideAttrs" flakeText)
     (assertHas "emacsReader = epkgs.callPackage ./packages/emacs/reader.nix { };" flakeText)
     (assertHas "owner = \"liaowang11\";" readerPackage)

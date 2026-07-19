@@ -55,6 +55,14 @@ jobs:
             system: x86_64-linux
             name: tty
             attrs: .#packages.x86_64-linux.tty
+          - runner: ubuntu-24.04-arm
+            system: aarch64-linux
+            name: default
+            attrs: .#packages.aarch64-linux.default
+          - runner: ubuntu-24.04-arm
+            system: aarch64-linux
+            name: tty
+            attrs: .#packages.aarch64-linux.tty
     name: ${{ matrix.system }}:${{ matrix.name }}
     runs-on: ${{ matrix.runner }}
     steps:
