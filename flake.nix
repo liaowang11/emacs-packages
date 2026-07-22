@@ -102,6 +102,13 @@
               (old: {
                 src = emacs-mac-src;
                 configureFlags = old.configureFlags ++ [ "--with-xwidgets" ];
+                env = (old.env or { }) // {
+                  # Emacs sizes its fd budget (and rlimit) from FD_SETSIZE;
+                  # the Darwin default of 1024 starves LSP file watchers on
+                  # large projects. Same value as the homebrew emacs-mac
+                  # formula's --with-unlimited-select option.
+                  NIX_CFLAGS_COMPILE = (old.env.NIX_CFLAGS_COMPILE or "") + " -DFD_SETSIZE=10000";
+                };
                 postInstall = (old.postInstall or "") + installIcon;
               });
         in
