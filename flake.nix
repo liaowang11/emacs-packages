@@ -70,6 +70,10 @@
             plist="$out/Applications/Emacs.app/Contents/Info.plist"
             cp ${liquidGlassIcns} "$resources/Emacs.icns"
             cp ${liquidGlassAssets} "$resources/Assets.car"
+            ${pkgs.xcbuild}/bin/PlistBuddy -c 'Add :CFBundleName string Emacs' "$plist" 2>/dev/null \
+              || ${pkgs.xcbuild}/bin/PlistBuddy -c 'Set :CFBundleName Emacs' "$plist"
+            ${pkgs.xcbuild}/bin/PlistBuddy -c 'Add :CFBundleDisplayName string Emacs' "$plist" 2>/dev/null \
+              || ${pkgs.xcbuild}/bin/PlistBuddy -c 'Set :CFBundleDisplayName Emacs' "$plist"
             ${pkgs.xcbuild}/bin/PlistBuddy -c 'Delete :CFBundleIconName' "$plist"
             ${pkgs.xcbuild}/bin/PlistBuddy -c 'Add :CFBundleIconName string Emacs' "$plist"
           '';

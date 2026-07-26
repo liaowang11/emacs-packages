@@ -43,6 +43,8 @@ let
     (assertHas "ffprobe -v error " flakeText)
     (assertHas "basePkgs.emacs-macport.override" flakeText)
     (assertLacks "pkgs.emacs-macport.override" flakeText)
+    (assertHas "Add :CFBundleName string Emacs" flakeText)
+    (assertHas "Add :CFBundleDisplayName string Emacs" flakeText)
     (assertHas "/usr/bin/osacompile" createEmacsClientApp)
     (assertHas "Emacs Client.app" createEmacsClientApp)
     (assertHas "org-protocol" createEmacsClientApp)
