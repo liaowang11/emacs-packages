@@ -11,6 +11,7 @@ Darwin:
 - `packages.aarch64-darwin.plus`
 - `packages.aarch64-darwin.client-app`
 - `packages.aarch64-darwin.plus-client-app`
+- `packages.aarch64-darwin.tramp-rpc-server`
 
 Linux:
 
@@ -20,6 +21,7 @@ Linux:
 - `packages.x86_64-linux.default`
 - `packages.x86_64-linux.gui`
 - `packages.x86_64-linux.tty`
+- `packages.<linux-system>.tramp-rpc-server`
 
 ## GitHub Actions
 

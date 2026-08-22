@@ -14,6 +14,7 @@
       url = "github:nix-community/emacs-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    tramp-rpc.url = "github:ArthurHeymans/emacs-tramp-rpc";
     telega-src = {
       url = "github:liaowang11/telega.el/master";
       flake = false;
@@ -29,6 +30,7 @@
       self,
       nixpkgs,
       emacs-overlay,
+      tramp-rpc,
       telega-src,
       emacs-mac-src,
     }:
@@ -46,7 +48,10 @@
         import nixpkgs {
           inherit system;
           config.allowUnfree = true;
-          overlays = [ emacs-overlay.overlay ];
+          overlays = [
+            emacs-overlay.overlay
+            tramp-rpc.overlays.default
+          ];
         };
       mkBasePkgs =
         system:
@@ -137,6 +142,7 @@
         in
         [
           epkgs.mu4e
+          epkgs.tramp-rpc
           telegaPackage
         ]
         ++ [
@@ -195,28 +201,33 @@
         let
           pkgs = mkPkgs system;
         in
-        if pkgs.stdenv.isDarwin then
-          let
-            defaultPackage = mkFinalPackage system { };
-            plusPackage = mkFinalPackage system { plus = true; };
-          in
-          {
-            default = defaultPackage;
-            macport = defaultPackage;
-            plus = plusPackage;
-            mu = pkgs.mu;
-            client-app = mkClientApp pkgs defaultPackage;
-            plus-client-app = mkClientApp pkgs plusPackage;
-          }
-        else
-          {
-            default = mkFinalPackage system { };
-            gui = mkFinalPackage system { };
-            tty = mkFinalPackage system {
-              gui = false;
-            };
-            mu = pkgs.mu;
-          };
+        {
+          tramp-rpc-server = tramp-rpc.packages.${system}.tramp-rpc-server;
+        }
+        // (
+          if pkgs.stdenv.isDarwin then
+            let
+              defaultPackage = mkFinalPackage system { };
+              plusPackage = mkFinalPackage system { plus = true; };
+            in
+            {
+              default = defaultPackage;
+              macport = defaultPackage;
+              plus = plusPackage;
+              mu = pkgs.mu;
+              client-app = mkClientApp pkgs defaultPackage;
+              plus-client-app = mkClientApp pkgs plusPackage;
+            }
+          else
+            {
+              default = mkFinalPackage system { };
+              gui = mkFinalPackage system { };
+              tty = mkFinalPackage system {
+                gui = false;
+              };
+              mu = pkgs.mu;
+            }
+        );
     in
     {
       packages = forAllSystems mkPackages;
@@ -230,7 +241,11 @@
         {
           default =
             assert lib.hasInfix "with-packages" packages.default.name;
+            assert lib.any (pkg: pkg.pname == "tramp-rpc") packages.default.explicitRequires;
             pkgs.runCommand "emacs-final-package-check" { } "touch $out";
+          tramp-rpc-server =
+            assert packages.tramp-rpc-server.pname == "emacs-tramp-rpc";
+            pkgs.runCommand "emacs-tramp-rpc-server-check" { } "touch $out";
           variants =
             assert (
               if pkgs.stdenv.isDarwin then

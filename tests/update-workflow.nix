@@ -13,6 +13,9 @@ let
     (assertHas "schedule:" workflowText)
     (assertHas "cron: '0 3 * * 5'" workflowText)
     (assertHas "nix flake update" workflowText)
+    (assertHas ".#packages.aarch64-darwin.tramp-rpc-server" workflowText)
+    (assertHas ".#packages.x86_64-linux.tramp-rpc-server" workflowText)
+    (assertHas ".#packages.aarch64-linux.tramp-rpc-server" workflowText)
     (assertHas "git push origin HEAD:main" workflowText)
   ];
 in

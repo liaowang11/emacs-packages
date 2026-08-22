@@ -22,6 +22,10 @@ let
 
   checks = [
     (assertHas ''"aarch64-linux"'' flakeText)
+    (assertHas "tramp-rpc.url = \"github:ArthurHeymans/emacs-tramp-rpc\";" flakeText)
+    (assertHas "tramp-rpc.overlays.default" flakeText)
+    (assertHas "epkgs.tramp-rpc" flakeText)
+    (assertHas "tramp-rpc-server = tramp-rpc.packages.\${system}.tramp-rpc-server;" flakeText)
     (assertHas "telegaPackage = epkgs.melpaPackages.telega.overrideAttrs" flakeText)
     (assertHas "emacsReader = epkgs.callPackage ./packages/emacs/reader.nix { };" flakeText)
     (assertHas "owner = \"liaowang11\";" readerPackage)

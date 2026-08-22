@@ -70,12 +70,50 @@
         "type": "github"
       }
     },
+    "nixpkgs_2": {
+      "locked": {
+        "lastModified": 1768305791,
+        "narHash": "sha256-AIdl6WAn9aymeaH/NvBj0H9qM+XuAuYbGMZaP0zcXAQ=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "1412caf7bf9e660f2f962917c14b1ea1c3bc695e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixos-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "emacs-mac-src": "emacs-mac-src",
         "emacs-overlay": "emacs-overlay",
         "nixpkgs": "nixpkgs",
-        "telega-src": "telega-src"
+        "telega-src": "telega-src",
+        "tramp-rpc": "tramp-rpc"
+      }
+    },
+    "rust-overlay": {
+      "inputs": {
+        "nixpkgs": [
+          "tramp-rpc",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1768445213,
+        "narHash": "sha256-y0BglISgDr61vvdb35m0O4npuqh1pojlBNDILo9j8AI=",
+        "owner": "oxalica",
+        "repo": "rust-overlay",
+        "rev": "1cd63408e71cc0e6a89ff2cb7c4107214e2523cc",
+        "type": "github"
+      },
+      "original": {
+        "owner": "oxalica",
+        "repo": "rust-overlay",
+        "type": "github"
       }
     },
     "telega-src": {
@@ -92,6 +130,25 @@
         "owner": "liaowang11",
         "ref": "master",
         "repo": "telega.el",
+        "type": "github"
+      }
+    },
+    "tramp-rpc": {
+      "inputs": {
+        "nixpkgs": "nixpkgs_2",
+        "rust-overlay": "rust-overlay"
+      },
+      "locked": {
+        "lastModified": 1787331575,
+        "narHash": "sha256-fQB4FYk28IEC+o/3z8Q+O9wZVKG6EAP1Z8Gnd1cLc3w=",
+        "owner": "ArthurHeymans",
+        "repo": "emacs-tramp-rpc",
+        "rev": "63c77e37b2ddd342027e5d4a550b1cc2f3fbcd74",
+        "type": "github"
+      },
+      "original": {
+        "owner": "ArthurHeymans",
+        "repo": "emacs-tramp-rpc",
         "type": "github"
       }
     }
