@@ -22,7 +22,7 @@ let
 
   checks = [
     (assertHas ''"aarch64-linux"'' flakeText)
-    (assertHas "tramp-rpc.url = \"github:ArthurHeymans/emacs-tramp-rpc\";" flakeText)
+    (assertHas ''tramp-rpc.url = "github:liaowang11/emacs-tramp-rpc?ref=fix/suspended-poll-timer";'' flakeText)
     (assertHas "tramp-rpc.overlays.default" flakeText)
     (assertHas "epkgs.tramp-rpc" flakeText)
     (assertHas "tramp-rpc-server = tramp-rpc.packages.\${system}.tramp-rpc-server;" flakeText)
