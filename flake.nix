@@ -14,7 +14,7 @@
       url = "github:nix-community/emacs-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    tramp-rpc.url = "github:liaowang11/emacs-tramp-rpc?ref=fix/suspended-poll-timer";
+    tramp-rpc.url = "github:ArthurHeymans/emacs-tramp-rpc";
     telega-src = {
       url = "github:liaowang11/telega.el/master";
       flake = false;
