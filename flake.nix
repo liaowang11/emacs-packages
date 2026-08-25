@@ -20,7 +20,7 @@
       flake = false;
     };
     emacs-mac-src = {
-      url = "github:liaowang11/emacs-mac?ref=emacs-mac-30_1_exp";
+      url = "github:liaowang11/emacs-mac?ref=emacs-mac-31_1";
       flake = false;
     };
   };
@@ -110,6 +110,19 @@
             }).overrideAttrs
               (old: {
                 src = emacs-mac-src;
+                # nixpkgs still packages the 30.x mac port, so the version and
+                # the patch set both need adjusting for the 31.1 source.
+                version = "31.1";
+                # Emacs 31.1 carries these nixpkgs backports upstream, so the
+                # patches no longer apply and patchPhase fails on them.
+                patches = builtins.filter (
+                  patch:
+                  !(lib.any (obsolete: lib.hasInfix obsolete (builtins.baseNameOf (toString patch))) [
+                    "treesit-0.26"
+                    "ts-query-pred"
+                    "risky-intern-calls-80574"
+                  ])
+                ) (old.patches or [ ]);
                 configureFlags = old.configureFlags ++ [ "--with-xwidgets" ];
                 env = (old.env or { }) // {
                   # Emacs sizes its fd budget (and rlimit) from FD_SETSIZE;
