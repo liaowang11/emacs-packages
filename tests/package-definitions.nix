@@ -45,6 +45,8 @@ let
     (assertHas "executable-find \"ffplay\"" flakeText)
     (assertHas "executable-find \"ffmpeg\"" flakeText)
     (assertHas "ffprobe -v error " flakeText)
+    (assertLacks "pkgs.stdenv.isDarwin" flakeText)
+    (assertHas "pkgs.stdenv.hostPlatform.isDarwin" flakeText)
     (assertHas "basePkgs.emacs-macport.override" flakeText)
     (assertLacks "pkgs.emacs-macport.override" flakeText)
     (assertHas "Add :CFBundleName string Emacs" flakeText)

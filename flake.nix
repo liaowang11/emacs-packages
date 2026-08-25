@@ -181,7 +181,7 @@
           basePkgs = mkBasePkgs system;
           basePackages = mkBasePackages pkgs basePkgs;
           emacsPackage =
-            if pkgs.stdenv.isDarwin then
+            if pkgs.stdenv.hostPlatform.isDarwin then
               if plus then basePackages.emacsPlus else basePackages.emacsMac
             else if gui then
               pkgs.emacs-pgtk
@@ -218,7 +218,7 @@
           tramp-rpc-server = tramp-rpc.packages.${system}.tramp-rpc-server;
         }
         // (
-          if pkgs.stdenv.isDarwin then
+          if pkgs.stdenv.hostPlatform.isDarwin then
             let
               defaultPackage = mkFinalPackage system { };
               plusPackage = mkFinalPackage system { plus = true; };
@@ -261,7 +261,7 @@
             pkgs.runCommand "emacs-tramp-rpc-server-check" { } "touch $out";
           variants =
             assert (
-              if pkgs.stdenv.isDarwin then
+              if pkgs.stdenv.hostPlatform.isDarwin then
                 packages.default.drvPath != packages.plus.drvPath
               else
                 packages.default.drvPath != packages.tty.drvPath
@@ -269,7 +269,7 @@
             pkgs.runCommand "emacs-final-package-variant-check" { } "touch $out";
           client-app =
             assert (
-              if pkgs.stdenv.isDarwin then
+              if pkgs.stdenv.hostPlatform.isDarwin then
                 let
                   defaultEmacsAppPath = builtins.unsafeDiscardStringContext "${packages.default}/Applications/Emacs.app";
                   defaultEmacsClientPath = builtins.unsafeDiscardStringContext "${packages.default}/bin/emacsclient";
