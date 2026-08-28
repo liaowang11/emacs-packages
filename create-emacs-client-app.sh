@@ -14,35 +14,25 @@ trap 'rm -f "$client_script"' EXIT
 
 cat > "$client_script" <<APPLESCRIPT
 property emacsClientPath : "$emacsclient_bin"
-property emacsAppPath : "$emacs_app"
 
 on open theDropped
   repeat with oneDrop in theDropped
     set dropPath to quoted form of POSIX path of oneDrop
     try
-      do shell script quoted form of emacsClientPath & " -c -a '' -n " & dropPath
+      do shell script quoted form of emacsClientPath & " -c -n " & dropPath
     end try
   end repeat
-  try
-    do shell script "open " & quoted form of emacsAppPath
-  end try
 end open
 
 on run
   try
-    do shell script quoted form of emacsClientPath & " -c -a '' -n"
-  end try
-  try
-    do shell script "open " & quoted form of emacsAppPath
+    do shell script quoted form of emacsClientPath & " -c -n"
   end try
 end run
 
 on open location this_URL
   try
     do shell script quoted form of emacsClientPath & " -n " & quoted form of this_URL
-  end try
-  try
-    do shell script "open " & quoted form of emacsAppPath
   end try
 end open location
 APPLESCRIPT

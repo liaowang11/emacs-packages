@@ -54,6 +54,9 @@ let
     (assertHas "/usr/bin/osacompile" createEmacsClientApp)
     (assertHas "Emacs Client.app" createEmacsClientApp)
     (assertHas "org-protocol" createEmacsClientApp)
+    (assertHas ''emacsClientPath & " -c -n "'' createEmacsClientApp)
+    (assertLacks " -c -a '' -n" createEmacsClientApp)
+    (assertLacks ''do shell script "open '' createEmacsClientApp)
   ];
 in
 builtins.foldl' (acc: check: builtins.seq acc check) true checks
