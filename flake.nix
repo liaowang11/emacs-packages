@@ -121,6 +121,7 @@
                     "treesit-0.26"
                     "ts-query-pred"
                     "risky-intern-calls-80574"
+                    "CVE-2026-79992"
                   ])
                 ) (old.patches or [ ]);
                 configureFlags = old.configureFlags ++ [ "--with-xwidgets" ];
