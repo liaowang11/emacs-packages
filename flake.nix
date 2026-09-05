@@ -86,7 +86,7 @@
           # so keep librsvg on the stock dependency instead of reapplying the patch.
           mkLibrsvg = packageSet: packageSet.librsvg;
           emacsPlus =
-            (pkgs.emacs30.override {
+            (pkgs.emacs.override {
               librsvg = mkLibrsvg pkgs;
             }).overrideAttrs
               (old: {
@@ -94,13 +94,15 @@
                 passthru = (old.passthru or { }) // {
                   treeSitter = true;
                 };
+                # fix-window-role and fix-macos-tahoe-scrolling both landed
+                # in upstream Emacs 31.1 (the latter as emacs-mirror/emacs@046f5ef0),
+                # so emacs-plus dropped both from its emacs-31 patch set too.
                 patches = (old.patches or [ ]) ++ [
-                  ./patches/fix-window-role.patch
                   ./patches/system-appearance.patch
                   ./patches/round-undecorated-frame.patch
                   ./patches/mac-font-use-typo-metrics.patch
-                  ./patches/fix-macos-tahoe-scrolling.patch
                   ./patches/fix-ns-x-colors.patch
+                  ./patches/fix-ns-scroll-crash.patch
                 ];
                 postInstall = (old.postInstall or "") + installIcon;
               });

@@ -24,3 +24,4 @@ diff --git a/lisp/term/ns-win.el b/lisp/term/ns-win.el
 +
    ;; Don't let Emacs suspend under NS.
    (add-hook 'suspend-hook 'ns-suspend-error)
+
