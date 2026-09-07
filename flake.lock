@@ -139,15 +139,15 @@
         "rust-overlay": "rust-overlay"
       },
       "locked": {
-        "lastModified": 1788454336,
-        "narHash": "sha256-pXJk9xUE9ex8Wotj1IPv86q4VWQoDYzixTr9S0/8N3Q=",
-        "owner": "ArthurHeymans",
+        "lastModified": 1788772563,
+        "narHash": "sha256-UpUE+R+9VsdhS+3hGFPb2+I/IwQwBJrAiTVe0BvyuFA=",
+        "owner": "liaowang11",
         "repo": "emacs-tramp-rpc",
-        "rev": "cab9e13393a952b5524e0066f9dd876340711665",
+        "rev": "85b0a124aaa0030b8be832eb3d2ebc92c3df99ab",
         "type": "github"
       },
       "original": {
-        "owner": "ArthurHeymans",
+        "owner": "liaowang11",
         "repo": "emacs-tramp-rpc",
         "type": "github"
       }
