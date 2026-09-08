@@ -1,5 +1,5 @@
-# ABOUTME: Ensures the standalone repo defines a scheduled input update workflow.
-# ABOUTME: Keeps the Friday update-and-rebuild path from silently disappearing.
+# ABOUTME: Ensures the standalone repo defines the manual input update workflow.
+# ABOUTME: Guards the update-and-rebuild path against automatic triggers returning.
 let
   workflowText = builtins.readFile ../.github/workflows/update-flake-inputs.yml;
   hasInfix = needle: text: builtins.replaceStrings [ needle ] [ "" ] text != text;
@@ -9,9 +9,15 @@ let
     assert hasInfix needle text;
     true;
 
+  assertLacks =
+    needle: text:
+    assert !hasInfix needle text;
+    true;
+
   checks = [
-    (assertHas "schedule:" workflowText)
-    (assertHas "cron: '0 3 * * 5'" workflowText)
+    (assertHas "workflow_dispatch:" workflowText)
+    (assertLacks "schedule:" workflowText)
+    (assertLacks "cron:" workflowText)
     (assertHas "nix flake update" workflowText)
     (assertHas ".#packages.aarch64-darwin.tramp-rpc-server" workflowText)
     (assertHas ".#packages.x86_64-linux.tramp-rpc-server" workflowText)

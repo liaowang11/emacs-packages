@@ -25,7 +25,7 @@ Linux:
 
 ## GitHub Actions
 
-The build workflow in `.github/workflows/build.yml` builds:
+Both workflows run only when dispatched manually. The build workflow in `.github/workflows/build.yml` builds:
 
 - `aarch64-darwin.default` and `aarch64-darwin.client-app`
 - `aarch64-darwin.plus` and `aarch64-darwin.plus-client-app`
@@ -34,9 +34,9 @@ The build workflow in `.github/workflows/build.yml` builds:
 - `x86_64-linux.default`
 - `x86_64-linux.tty`
 
-Pull requests build without pushing to Cachix. Pushes to `main` and manual runs push successful builds to `iosevka-wliao`.
+Manual runs push successful builds to `iosevka-wliao`.
 
-The update workflow in `.github/workflows/update-flake-inputs.yml` runs every Friday at `03:00 UTC`, updates flake inputs, commits `flake.lock` when it changes, and rebuilds all exported variants.
+The update workflow in `.github/workflows/update-flake-inputs.yml` updates flake inputs, commits `flake.lock` when it changes, and rebuilds all exported variants.
 
 ## Required Secret
 

@@ -1,10 +1,6 @@
 name: Build
 
 on:
-  pull_request:
-  push:
-    branches:
-      - main
   workflow_dispatch:
 
 concurrency:
@@ -54,6 +50,5 @@ jobs:
         with:
           name: iosevka-wliao
           authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
-          skipPush: ${{ github.event_name == 'pull_request' }}
       - run: nix flake check --print-build-logs --system ${{ matrix.system }}
       - run: nix build --print-build-logs ${{ matrix.attrs }}
