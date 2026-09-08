@@ -14,10 +14,7 @@
       url = "github:nix-community/emacs-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    # Personal fork: carries the C-g cancellation fix that keeps a shared RPC
-    # connection alive, so an interrupted Magit wait no longer kills co-tenant
-    # remote processes such as an ACP agent.
-    tramp-rpc.url = "github:liaowang11/emacs-tramp-rpc";
+    tramp-rpc.url = "github:ArthurHeymans/emacs-tramp-rpc";
     telega-src = {
       url = "github:liaowang11/telega.el/master";
       flake = false;
