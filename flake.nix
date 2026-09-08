@@ -20,7 +20,7 @@
       flake = false;
     };
     emacs-mac-src = {
-      url = "github:liaowang11/emacs-mac?ref=emacs-mac-31_1";
+      url = "github:liaowang11/emacs-mac?ref=emacs-mac-31";
       flake = false;
     };
   };
