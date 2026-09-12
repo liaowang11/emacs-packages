@@ -15,8 +15,8 @@ let
     domain = "codeberg.org";
     owner = "liaowang11";
     repo = "emacs-reader";
-    rev = "cfb02b06b89df7977d2ee23e043805eaca6cf595";
-    hash = "sha256-jcQbqQE0V+OOaS/3PbMmqEYhG7fspkidrDYIpA3jVR4=";
+    rev = "815fa14020584fa6d165d4f1941062f3456c9d23";
+    hash = "sha256-T7Hek6Zivd8B+jfmQE1mTu7TU7kDnMdcTxN4V2bGWDQ=";
   };
   core = stdenv.mkDerivation {
     inherit src;
