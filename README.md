@@ -23,6 +23,25 @@ Linux:
 - `packages.x86_64-linux.tty`
 - `packages.<linux-system>.tramp-rpc-server`
 
+## Darwin app bundle
+
+On Darwin the final package post-processes `Applications/Emacs.app` in
+`packages/emacs/mac-bundle.nix` so the app starts correctly on its own:
+
+- the real Emacs executable replaces the `emacsWithPackages` wrapper stub;
+- the preloaded `native-lisp` files are copied to `Contents/native-lisp`,
+  where the dumper looks for them relative to the executable;
+- the package paths go into the `Info.plist` `LSEnvironment` dict.
+
+macOS records an app for login restore by the bundle that owns the running
+executable. With the stock wrapper that is the base Emacs in the store, so a
+restored Emacs came up with no package load path, no tree-sitter grammars and
+an unrecognised code identity. The Linux packages keep the stock wrapper.
+
+`checks.aarch64-darwin.darwin-bundle` starts the built bundle from a copy
+outside the store, once with an empty environment and once with only the
+`LSEnvironment` values, the way a login restore does.
+
 ## GitHub Actions
 
 Both workflows run only when dispatched manually. The build workflow in `.github/workflows/build.yml` builds:

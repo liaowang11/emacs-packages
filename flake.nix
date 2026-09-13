@@ -191,8 +191,12 @@
             else
               pkgs.emacs-nox;
           epkgs = pkgs.emacsPackagesFor emacsPackage;
+          withPackages = epkgs.emacsWithPackages (mkExtraPackages pkgs);
+          # The stock wrapper app only works when the shell wrapper exports the
+          # package paths, which a macOS login restore never does.
+          macBundle = pkgs.callPackage ./packages/emacs/mac-bundle.nix { };
         in
-        epkgs.emacsWithPackages (mkExtraPackages pkgs);
+        if pkgs.stdenv.hostPlatform.isDarwin then macBundle withPackages else withPackages;
 
       mkClientApp =
         pkgs: emacsFinalPackage:
@@ -301,6 +305,25 @@
           update-workflow =
             assert import ./tests/update-workflow.nix;
             pkgs.runCommand "emacs-update-workflow-check" { } "touch $out";
+          mac-bundle =
+            assert import ./tests/mac-bundle.nix { inherit lib; };
+            pkgs.runCommand "emacs-mac-bundle-check" { } "touch $out";
+        }
+        // lib.optionalAttrs pkgs.stdenv.hostPlatform.isDarwin {
+          # Starts the built Emacs.app from a copy outside the store, the way
+          # Home Manager and a macOS login restore do.
+          darwin-bundle =
+            pkgs.runCommand "emacs-darwin-bundle-check"
+              {
+                nativeBuildInputs = [
+                  pkgs.file
+                  pkgs.python3
+                ];
+              }
+              ''
+                bash ${./tests/darwin-bundle.sh} ${packages.default}
+                touch $out
+              '';
         }
       );
     };
