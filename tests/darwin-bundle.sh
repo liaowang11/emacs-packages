@@ -25,6 +25,14 @@ file "$executable" | grep -q "Mach-O" || fail "not a Mach-O: $(file "$executable
 size="$(wc -c <"$executable")"
 [ "$size" -gt 1000000 ] || fail "executable is only $size bytes, still a wrapper stub"
 
+# The dump has to travel with the executable. The base store path can hold a
+# different build of the same derivation on another machine, and its
+# fingerprinted dump would then not match the bundled executable.
+dump="$app/Contents/MacOS/Emacs.pdmp"
+if [ -L "$dump" ] || [ ! -f "$dump" ]; then
+  fail "missing $dump as a real file"
+fi
+
 # pdumper.c looks for the preloaded .eln next to the executable, before Lisp
 # runs. A symlink here would be followed by the copyApps rsync, which would
 # then copy the whole native-lisp tree on every generation.
@@ -67,6 +75,13 @@ cat >"$work/probe.el" <<'ELISP'
 (probe-check "data-directory" (file-directory-p data-directory))
 (probe-check "exec-directory" (file-directory-p exec-directory))
 (probe-check "native-compile" (featurep 'native-compile))
+;; Loading the dump from the base store path only works while that path holds
+;; the same build as the bundled executable.
+(probe-check "bundled dump"
+             (equal (file-truename (or (alist-get 'dump-file-name (pdumper-stats)) ""))
+                    (file-truename (expand-file-name
+                                    "Contents/MacOS/Emacs.pdmp"
+                                    (getenv "PROBE_BUNDLE")))))
 
 (when (equal (getenv "PROBE_MODE") "packages")
   (probe-check "package site-start"

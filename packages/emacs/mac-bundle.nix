@@ -23,6 +23,11 @@ finalPackage.overrideAttrs (old: {
       rm -f "$app/Contents/MacOS/Emacs" "$app/Contents/MacOS/.Emacs-wrapped"
       cp "$emacs/Applications/Emacs.app/Contents/MacOS/Emacs" "$app/Contents/MacOS/Emacs"
       chmod u+w "$app/Contents/MacOS/Emacs"
+      # Its dump, which pdumper.c tries next to the executable first. The
+      # fingerprinted dump in the base store path is not enough: another
+      # machine can hold a different build of that same path, whose dump then
+      # fails the fingerprint check and Emacs starts without one.
+      cp "$emacs/Applications/Emacs.app/Contents/MacOS/Emacs.pdmp" "$app/Contents/MacOS/Emacs.pdmp"
 
       # 2. The preloaded native-lisp files. pdumper.c resolves these relative
       # to the executable before Lisp runs and has no absolute fallback, so

@@ -29,6 +29,8 @@ let
     # The real executable replaces the stub, so macOS restores this bundle.
     (assertHas ''rm -f "$app/Contents/MacOS/Emacs" "$app/Contents/MacOS/.Emacs-wrapped"'' bundleText)
     (assertHas ''cp "$emacs/Applications/Emacs.app/Contents/MacOS/Emacs" "$app/Contents/MacOS/Emacs"'' bundleText)
+    # Its dump comes along, so the two always share a fingerprint.
+    (assertHas ''cp "$emacs/Applications/Emacs.app/Contents/MacOS/Emacs.pdmp" "$app/Contents/MacOS/Emacs.pdmp"'' bundleText)
 
     # Preloaded .eln must be real files: pdumper resolves them relative to the
     # executable, and the copyApps rsync follows symlinks that leave the tree.

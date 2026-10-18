@@ -28,7 +28,9 @@ Linux:
 On Darwin the final package post-processes `Applications/Emacs.app` in
 `packages/emacs/mac-bundle.nix` so the app starts correctly on its own:
 
-- the real Emacs executable replaces the `emacsWithPackages` wrapper stub;
+- the real Emacs executable replaces the `emacsWithPackages` wrapper stub,
+  and its `Emacs.pdmp` dump sits beside it so the two always come from the
+  same build;
 - the preloaded `native-lisp` files are copied to `Contents/native-lisp`,
   where the dumper looks for them relative to the executable;
 - the package paths go into the `Info.plist` `LSEnvironment` dict.
