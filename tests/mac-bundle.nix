@@ -30,7 +30,10 @@ let
     (assertHas ''rm -f "$app/Contents/MacOS/Emacs" "$app/Contents/MacOS/.Emacs-wrapped"'' bundleText)
     (assertHas ''cp "$emacs/Applications/Emacs.app/Contents/MacOS/Emacs" "$app/Contents/MacOS/Emacs"'' bundleText)
     # Its dump comes along, so the two always share a fingerprint.
-    (assertHas ''cp "$emacs/Applications/Emacs.app/Contents/MacOS/Emacs.pdmp" "$app/Contents/MacOS/Emacs.pdmp"'' bundleText)
+    # Taken from libexec: the emacs-plus app has no Emacs.pdmp of its own.
+    (assertHas ''dumps=("$emacs"/libexec/emacs/*/*/emacs-*.pdmp)'' bundleText)
+    (assertHas "cp \"''\${dumps[0]}\" \"$app/Contents/MacOS/Emacs.pdmp\"" bundleText)
+    (assertLacks ''cp "$emacs/Applications/Emacs.app/Contents/MacOS/Emacs.pdmp"'' bundleText)
 
     # Preloaded .eln must be real files: pdumper resolves them relative to the
     # executable, and the copyApps rsync follows symlinks that leave the tree.

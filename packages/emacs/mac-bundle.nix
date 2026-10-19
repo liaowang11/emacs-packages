@@ -26,8 +26,15 @@ finalPackage.overrideAttrs (old: {
       # Its dump, which pdumper.c tries next to the executable first. The
       # fingerprinted dump in the base store path is not enough: another
       # machine can hold a different build of that same path, whose dump then
-      # fails the fingerprint check and Emacs starts without one.
-      cp "$emacs/Applications/Emacs.app/Contents/MacOS/Emacs.pdmp" "$app/Contents/MacOS/Emacs.pdmp"
+      # fails the fingerprint check and Emacs starts without one. Only the
+      # mac port also ships it inside its app, so take the libexec copy that
+      # both ports install.
+      dumps=("$emacs"/libexec/emacs/*/*/emacs-*.pdmp)
+      if [ "''${#dumps[@]}" -ne 1 ] || [ ! -f "''${dumps[0]}" ]; then
+        echo "mac-bundle: expected one fingerprinted dump, found: ''${dumps[*]}" >&2
+        exit 1
+      fi
+      cp "''${dumps[0]}" "$app/Contents/MacOS/Emacs.pdmp"
 
       # 2. The preloaded native-lisp files. pdumper.c resolves these relative
       # to the executable before Lisp runs and has no absolute fallback, so
