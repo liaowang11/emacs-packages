@@ -10,13 +10,13 @@
   ...
 }:
 let
-  version = "0-unstable-2026-10-19";
+  version = "0-unstable-2026-10-20";
   src = fetchFromGitea {
     domain = "codeberg.org";
     owner = "liaowang11";
     repo = "emacs-reader";
-    rev = "7a620903525a4b748e7ebedd8bc53c78c4bccbf6";
-    hash = "sha256-wLDwpME/vi5seR7Tmq4BcFA96W6ci3JBQ4CNdCefKDI=";
+    rev = "6cdb07a34771a34c9c13b2f082ae775419b7cb41";
+    hash = "sha256-LCsz+QMRRD7O3Tls+rCPcW6ikn03ZD1wqOveBTzf5Xk=";
   };
   core = stdenv.mkDerivation {
     inherit src;
