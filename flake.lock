@@ -3,11 +3,11 @@
     "emacs-mac-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1788875033,
-        "narHash": "sha256-D2HYBmouiLPnTzlLZYFWXjT6AmPgBJr+f9w4mY52Mgk=",
+        "lastModified": 1793028804,
+        "narHash": "sha256-vkVUJB1wYghE08Mk0SBzYeKZACsB0ysqWeAKYjlfuj4=",
         "owner": "liaowang11",
         "repo": "emacs-mac",
-        "rev": "e5922871e465d207ddba4203a119448c2201743f",
+        "rev": "8b1d4b6dadc560890295377812daae37bcfa9a00",
         "type": "github"
       },
       "original": {
@@ -119,11 +119,11 @@
     "telega-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1787539556,
-        "narHash": "sha256-DSveJ8K9PZ4CBjLMQUT9odWqh5Xso+BRu9UV6FSn6d0=",
+        "lastModified": 1793018510,
+        "narHash": "sha256-CjsBzwBVT/LKTd3jSCs+nxscoD+up7IP75yaNjqzaos=",
         "owner": "liaowang11",
         "repo": "telega.el",
-        "rev": "c90406e0ad31b56832d6be624f5054059684695a",
+        "rev": "7c4d2ab56245c5b58b65c260fcd555bd40bf8f94",
         "type": "github"
       },
       "original": {
