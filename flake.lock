@@ -140,10 +140,10 @@
       },
       "locked": {
         "lastModified": 1794409151,
-        "narHash": "sha256-mOy7gQGyV4uotGXiYMgmKw2L2oDrWQ73ZBxZZGpTYho=",
+        "narHash": "sha256-nEwpYsVUQDgLrjaKkVMbcqKvLDlLMz4jkyjnWy8W4lw=",
         "owner": "liaowang11",
         "repo": "emacs-tramp-rpc",
-        "rev": "780ed6dea71ca259869cfc571aa028becb1fd3ae",
+        "rev": "3e3d5aa6bbb09a59b15973c06a77f8324509ddf8",
         "type": "github"
       },
       "original": {
