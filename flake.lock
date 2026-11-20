@@ -119,11 +119,11 @@
     "telega-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1793539572,
-        "narHash": "sha256-+yetkl2KWpZBx69OZ0axMUA6e16ugsRetnLlqipTWN0=",
+        "lastModified": 1795193291,
+        "narHash": "sha256-fbh9A3dOySlSuhE+vSsvCc7Pl4xYTfL49AxW+sUJwFg=",
         "owner": "liaowang11",
         "repo": "telega.el",
-        "rev": "94c75edf3f88becb9dfcb835404a72b8afc5edee",
+        "rev": "7f2bd32be179a15756fc26907a09317b28b4c04f",
         "type": "github"
       },
       "original": {
@@ -139,11 +139,11 @@
         "rust-overlay": "rust-overlay"
       },
       "locked": {
-        "lastModified": 1795106873,
-        "narHash": "sha256-IWFJmBKqdP+L550OV2PIa3h95z4LIck2SNVmNZVMOEg=",
+        "lastModified": 1795193291,
+        "narHash": "sha256-YSskkoqjtBqTzdZDd+EhyQqmwak/bV4mzBVjauSla68=",
         "owner": "liaowang11",
         "repo": "emacs-tramp-rpc",
-        "rev": "233199523ff3bd7f712a53baebdf36ae8bf75aba",
+        "rev": "32ab9d667a7a1bfd042d8b036aa38834b0411289",
         "type": "github"
       },
       "original": {
