@@ -267,8 +267,8 @@
         {
           default =
             assert lib.hasInfix "with-packages" packages.default.name;
-            assert lib.any (pkg: pkg.pname == "tramp-rpc") packages.default.explicitRequires;
-            assert lib.any (pkg: pkg.pname == "pele-native") packages.default.explicitRequires;
+            assert lib.any (pkg: (pkg.pname or null) == "tramp-rpc") packages.default.explicitRequires;
+            assert lib.any (pkg: (pkg.pname or null) == "pele-native") packages.default.explicitRequires;
             pkgs.runCommand "emacs-final-package-check" { } "touch $out";
           tramp-rpc-server =
             assert packages.tramp-rpc-server.pname == "emacs-tramp-rpc";
@@ -279,7 +279,7 @@
                 packages.default.drvPath != packages.plus.drvPath
               else
                 packages.default.drvPath != packages.tty.drvPath
-                && !(lib.any (pkg: pkg.pname == "pele-native") packages.tty.explicitRequires)
+                && !(lib.any (pkg: (pkg.pname or null) == "pele-native") packages.tty.explicitRequires)
             );
             pkgs.runCommand "emacs-final-package-variant-check" { } "touch $out";
           client-app =
