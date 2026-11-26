@@ -87,8 +87,41 @@ cat >"$work/probe.el" <<'ELISP'
   (probe-check "package site-start"
                (equal (locate-library "site-start")
                       (concat (getenv "PROBE_SITE_LISP") "/site-start.elc")))
-  (dolist (library '("tramp-rpc" "vterm" "mu4e"))
+  (dolist (library '("tramp-rpc" "vterm" "mu4e" "pele-native"))
     (probe-check library (and (locate-library library) t)))
+  (probe-check "pele-native render"
+               (let ((loaded (require 'pele-native nil t)))
+                 (unwind-protect
+                     (when loaded
+                       (pele--native-submit
+                        1
+                        "graph LR\n  A --> B"
+                        (json-serialize
+                         `((fontSize . 15)
+                           (fontFamily . "Iosevka Aile, Sarasa Gothic SC, sans-serif")
+                           (fontFamilyMono . "Iosevka Custom, Sarasa Term SC, monospace")
+                           (measureText . t)
+                           (transparentBackground . t)
+                           (theme . ,(make-hash-table :test #'equal)))
+                         :false-object :false)
+                        5000)
+                       (let ((deadline (+ (float-time) 5.0))
+                             entry)
+                         (while (and (not (setq entry (pele--native-poll)))
+                                     (< (float-time) deadline))
+                           (sleep-for 0.01))
+                         (when entry
+                           (let ((res (json-parse-string (cadr entry)
+                                                         :object-type 'plist
+                                                         :false-object nil
+                                                         :null-object nil)))
+                             (and (eq t (plist-get res :ok))
+                                  (equal "native" (plist-get res :textMeasurement))
+                                  (stringp (plist-get res :svg))
+                                  (string-search "<svg" (plist-get res :svg))
+                                  t)))))
+                   (when (fboundp 'pele--native-shutdown)
+                     (pele--native-shutdown)))))
   (probe-check "python grammar" (treesit-language-available-p 'python))
   ;; Proves the store native-lisp directory resolved. A jit fallback would
   ;; leave this one byte-compiled.

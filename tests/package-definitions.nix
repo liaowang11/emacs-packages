@@ -5,6 +5,7 @@ let
   flakeText = builtins.readFile ../flake.nix;
   createEmacsClientApp = builtins.readFile ../create-emacs-client-app.sh;
   readerPackage = builtins.readFile ../packages/emacs/reader.nix;
+  peleNativePackage = builtins.readFile ../packages/emacs/pele-native.nix;
 
   assertHas =
     needle: text:
@@ -29,6 +30,11 @@ let
     (assertHas "tramp-rpc-server = tramp-rpc.packages.\${system}.tramp-rpc-server;" flakeText)
     (assertHas "telegaPackage = epkgs.melpaPackages.telega.overrideAttrs" flakeText)
     (assertHas "emacsReader = epkgs.callPackage ./packages/emacs/reader.nix { };" flakeText)
+    (assertHas "pele-src = {" flakeText)
+    (assertHas "url = \"github:LuciusChen/pele.el\";" flakeText)
+    (assertHas "peleNative = epkgs.callPackage ./packages/emacs/pele-native.nix { inherit pele-src; };" flakeText)
+    (assertHas "lib.optionals gui [ peleNative ]" flakeText)
+    (assertHas "TEXT_BACKEND=" peleNativePackage)
     (assertHas "owner = \"liaowang11\";" readerPackage)
     (assertLacks "owner = \"MonadicSheep\";" readerPackage)
     (assertHas "telega-src = {" flakeText)

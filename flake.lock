@@ -86,11 +86,28 @@
         "type": "github"
       }
     },
+    "pele-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1795682659,
+        "narHash": "sha256-FElHonNatwunsOAK4gTDq4nWY5NVjEgHrO3PjCYRsks=",
+        "owner": "LuciusChen",
+        "repo": "pele.el",
+        "rev": "5eddde42964b3064009db135c8074f7dd4c9f369",
+        "type": "github"
+      },
+      "original": {
+        "owner": "LuciusChen",
+        "repo": "pele.el",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "emacs-mac-src": "emacs-mac-src",
         "emacs-overlay": "emacs-overlay",
         "nixpkgs": "nixpkgs",
+        "pele-src": "pele-src",
         "telega-src": "telega-src",
         "tramp-rpc": "tramp-rpc"
       }

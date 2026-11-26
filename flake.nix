@@ -23,6 +23,10 @@
       url = "github:liaowang11/emacs-mac?ref=emacs-mac-31";
       flake = false;
     };
+    pele-src = {
+      url = "github:LuciusChen/pele.el";
+      flake = false;
+    };
   };
 
   outputs =
@@ -33,6 +37,7 @@
       tramp-rpc,
       telega-src,
       emacs-mac-src,
+      pele-src,
     }:
     let
       lib = nixpkgs.lib;
@@ -142,7 +147,7 @@
         };
 
       mkExtraPackages =
-        pkgs: epkgs:
+        pkgs: gui: epkgs:
         let
           telegaPackage = epkgs.melpaPackages.telega.overrideAttrs (old: {
             src = telega-src;
@@ -155,6 +160,7 @@
             '';
           });
           emacsReader = epkgs.callPackage ./packages/emacs/reader.nix { };
+          peleNative = epkgs.callPackage ./packages/emacs/pele-native.nix { inherit pele-src; };
         in
         [
           epkgs.mu4e
@@ -164,6 +170,7 @@
         ++ [
           emacsReader
         ]
+        ++ lib.optionals gui [ peleNative ]
         ++ (with epkgs.melpaPackages; [
           vterm
           jinx
@@ -190,7 +197,7 @@
             else
               pkgs.emacs-nox;
           epkgs = pkgs.emacsPackagesFor emacsPackage;
-          withPackages = epkgs.emacsWithPackages (mkExtraPackages pkgs);
+          withPackages = epkgs.emacsWithPackages (mkExtraPackages pkgs gui);
           # The stock wrapper app only works when the shell wrapper exports the
           # package paths, which a macOS login restore never does.
           macBundle = pkgs.callPackage ./packages/emacs/mac-bundle.nix { };
@@ -261,6 +268,7 @@
           default =
             assert lib.hasInfix "with-packages" packages.default.name;
             assert lib.any (pkg: pkg.pname == "tramp-rpc") packages.default.explicitRequires;
+            assert lib.any (pkg: pkg.pname == "pele-native") packages.default.explicitRequires;
             pkgs.runCommand "emacs-final-package-check" { } "touch $out";
           tramp-rpc-server =
             assert packages.tramp-rpc-server.pname == "emacs-tramp-rpc";
@@ -271,6 +279,7 @@
                 packages.default.drvPath != packages.plus.drvPath
               else
                 packages.default.drvPath != packages.tty.drvPath
+                && !(lib.any (pkg: pkg.pname == "pele-native") packages.tty.explicitRequires)
             );
             pkgs.runCommand "emacs-final-package-variant-check" { } "touch $out";
           client-app =
