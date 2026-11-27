@@ -147,7 +147,7 @@
         };
 
       mkExtraPackages =
-        pkgs: gui: epkgs:
+        pkgs: epkgs:
         let
           telegaPackage = epkgs.melpaPackages.telega.overrideAttrs (old: {
             src = telega-src;
@@ -169,8 +169,8 @@
         ]
         ++ [
           emacsReader
+          peleNative
         ]
-        ++ lib.optionals gui [ peleNative ]
         ++ (with epkgs.melpaPackages; [
           vterm
           jinx
@@ -197,7 +197,7 @@
             else
               pkgs.emacs-nox;
           epkgs = pkgs.emacsPackagesFor emacsPackage;
-          withPackages = epkgs.emacsWithPackages (mkExtraPackages pkgs gui);
+          withPackages = epkgs.emacsWithPackages (mkExtraPackages pkgs);
           # The stock wrapper app only works when the shell wrapper exports the
           # package paths, which a macOS login restore never does.
           macBundle = pkgs.callPackage ./packages/emacs/mac-bundle.nix { };
@@ -279,7 +279,7 @@
                 packages.default.drvPath != packages.plus.drvPath
               else
                 packages.default.drvPath != packages.tty.drvPath
-                && !(lib.any (pkg: (pkg.pname or null) == "pele-native") packages.tty.explicitRequires)
+                && lib.any (pkg: (pkg.pname or null) == "pele-native") packages.tty.explicitRequires
             );
             pkgs.runCommand "emacs-final-package-variant-check" { } "touch $out";
           client-app =

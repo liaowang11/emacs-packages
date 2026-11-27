@@ -1,4 +1,4 @@
-# ABOUTME: Builds the pele-native dynamic module from LuciusChen/pele.el for GUI Emacs.
+# ABOUTME: Builds the pele-native dynamic module from LuciusChen/pele.el for Emacs.
 # ABOUTME: Bundles upstream Pele and QuickJS with Core Text (Darwin) or Pango (Linux) text sizing.
 {
   lib,
